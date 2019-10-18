@@ -29,16 +29,24 @@ while True:
 file.close()
 print("Array: ", nums)
 
-def insertion_sort(nums):
-    for i in range(len(nums)):
-        tmp = nums[i]
-        j = i - 1
-        while j >= 0 and tmp < nums[j]:
-            nums[j+1], nums[j] = nums[j], nums[j+1]
-            j -= 1
-    return nums
+def merge_sort(nums):
+    if len(nums) < 2: return nums
+
+    result, mid = [], int(len(nums) / 2)
+
+    right = merge_sort(nums[mid:])
+    left = merge_sort(nums[:mid])
+
+    while (len(left) > 0) and (len(right) > 0):
+        if left[0] > right[0]:
+            result.append(right.pop(0))
+        else:
+            result.append(left.pop(0))
+
+    result.extend(left + right)
+    return result
 
 start_time = datetime.now()
-print("Quick sorted array: ", insertion_sort(nums))
+print("Merge sorted array: ", merge_sort(array))
 end_time = datetime.now()
 print('---Duration: {}'.format(end_time - start_time))
